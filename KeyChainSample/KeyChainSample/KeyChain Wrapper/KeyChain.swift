@@ -28,7 +28,7 @@ open class KeyChain: NSObject {
     ///   - service: service name provided by the user
     ///   - account: account name provided by the user
     ///   - data: Data to be updated in keychain for provided account and service
-    /// - Throws: Error Object
+    /// - Returns: OSStatus
     public static func updateData(service: String, account: String, data: Data) -> OSStatus {
         
         // Instantiate a new default keychain query
@@ -51,6 +51,7 @@ open class KeyChain: NSObject {
     /// - Parameters:
     ///   - service: service name for which data is to be removed
     ///   - account: account name for which data is to be removed
+    /// - Returns: OSStatus
     public static func removeData(service: String, account: String) -> OSStatus {
         
         // Instantiate a new default keychain query
@@ -75,7 +76,7 @@ open class KeyChain: NSObject {
     ///   - service: service name for which data is to be saved
     ///   - account: account name for which data is to be saved
     ///   - data: data to be saved
-    /// - Throws: Error object
+    /// - Returns: OSStatus
     public static func saveData(service: String, account: String, data: Data) -> OSStatus {
         // Instantiate a new default keychain query
         let keychainQuery: NSMutableDictionary = NSMutableDictionary(objects: [kSecClassGenericPasswordValue, service, account, data],
@@ -129,12 +130,14 @@ open class KeyChain: NSObject {
     }
 }
 
+/// Convert String to Data
 extension String {
     func toData() -> Data {
         return Data(self.utf8)
     }
 }
 
+/// Convert Data to String
 extension Data {
     func toString() -> String {
         return String(decoding: self, as: UTF8.self)
